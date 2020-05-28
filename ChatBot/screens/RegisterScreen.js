@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 
 export default class RegisterScreen extends React.Component {
     render() {
-        retrun (
+        return (
             <View style={styles.container}>
                 <Text>Register Screen</Text>
             </View>

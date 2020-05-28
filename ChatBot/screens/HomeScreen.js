@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 
 export default class HomeScreen extends React.Component {
     render() {
-        retrun (
+        return (
             <View style={styles.container}>
                 <Text>Home Screen</Text>
             </View>
