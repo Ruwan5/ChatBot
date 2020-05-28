@@ -5,7 +5,7 @@ export default class LoginScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Login Screen</Text>
+                <Text style={styles.greetings}>{'Hello!\nWellcome to ChatBot'}</Text>
 
             </View>
         )
@@ -15,7 +15,12 @@ export default class LoginScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
+
+    },
+    greetings: {
+        marginTop: 32,
+        fontSize: 18,
+        fontWeight: "400",
+        textAlign: "center"
     }
 })
