@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TextInput, TouchableOpacity,Image, StatusBar, LayoutAnimation} from 'react-native';
 import * as firebase from 'firebase';
 
 export default class LoginScreen extends React.Component {
@@ -20,8 +20,15 @@ export default class LoginScreen extends React.Component {
     }
 
     render() {
+        LayoutAnimation.easeInEaseOut();
         return (
             <View style={styles.container}>
+                <StatusBar barStyle="light-content"></StatusBar>
+                <Image
+                    source={require("../assets/20.png")}
+                    style={{marginTop: -400, marginLeft:-5, width:550, height: 550}}
+                ></Image>
+
                 <Text style={styles.greetings}>{'Hello!\nWellcome to ChatBot'}</Text>
 
                 <View  style={styles.errorMassage}>
