@@ -20,12 +20,12 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const AppStack = createStackNavigator({
-    Home: HomeScreen
+    Home: {screen: HomeScreen, navigationOptions:{headerShown: false}},
 });
 
 const AuthStack = createStackNavigator({
-    Login: LoginScreen,
-    Register: RegisterScreen
+    Login: {screen: LoginScreen, navigationOptions:{headerShown: false}},
+    Register: {screen: RegisterScreen, navigationOptions:{headerShown: false}},
 });
 
 export default createAppContainer(
