@@ -28,16 +28,19 @@ export default class RegisterScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-
                 <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}>
-                <Icon name='rowing' type='evilicon' color='#517fa4'/>
+                    <Icon reverse name='add' type='metarial' color='#FFF'/>
                 </TouchableOpacity>
 
-                <Text style={styles.greetings}>{'Hello!\nSign Up to get started.'}</Text>
-
-                <View  style={styles.errorMassage}>
-                    {this.state.errorMessage && <Text style={styles.error}>{this.state.errorMessage}</Text> }
+                <View style={{ position: "absolute", top: 44, alignItems: "center", width: "100%"}}>
+                    <Text style={styles.greetings}>{'Hello!\nSign Up to get started.'}</Text>
+                    <TouchableOpacity style={styles.avatar}>
+                        {/* <Icon  name='add' type='metarial'/> */}
+                        {/* <Ionicons name="ios-add" size={40} color="#FFF" style={{marginTop: 6, marginLeft: 2}}></Ionicons> */}
+                    </TouchableOpacity>
                 </View>
+
+
 
                 <View style={styles.form}>
                     <View>
@@ -92,6 +95,10 @@ export default class RegisterScreen extends React.Component {
                         Already have an account? <Text style={{fontWeight: "500", color: "#E9446A"}}>Login</Text>
                     </Text>
                 </TouchableOpacity>
+
+                <View  style={styles.errorMassage}>
+                    {this.state.errorMessage && <Text style={styles.error}>{this.state.errorMessage}</Text> }
+                </View>
             </View>
 
 
@@ -105,16 +112,16 @@ const styles = StyleSheet.create({
 
     },
     greetings: {
-        marginTop: 32,
+        marginTop: -32,
         fontSize: 18,
         fontWeight: "400",
         textAlign: "center"
     },
     errorMassage: {
-        height: 72,
+        height: 30,
         alignItems: "center",
         justifyContent: "center",
-        marginHorizontal: 30
+        marginHorizontal: 20
     },
     error: {
         color: "#E9446A",
@@ -123,7 +130,8 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     form: {
-        marginBottom: 40,
+        top: 100,
+        marginBottom: 120,
         marginHorizontal: 30
     },
     inputTitle: {
@@ -146,5 +154,25 @@ const styles = StyleSheet.create({
         height: 52,
         alignItems: "center",
         justifyContent: "center"
-    }
+    },
+    avatar: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        backgroundColor: "#E1E2E6",
+        marginTop: 15,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    // back: {
+    //     position: "absolute",
+    //     top: 40,
+    //     left: 32,
+    //     width: 32,
+    //     height: 32,
+    //     borderRadius: 16,
+    //     backgroundColor: "rgba(21, 22, 48, 0.1)",
+    //     alignItems: "center",
+    //     justifyContent: "center"
+    // }
 })
