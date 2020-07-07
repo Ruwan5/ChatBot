@@ -29,6 +29,12 @@ export default class LoginScreen extends React.Component {
                     style={{marginTop: -400, marginLeft:-5, width:550, height: 550}}
                 ></Image>
 
+                <Image
+                    source={require("../assets/c.png")}
+                    style={{marginTop: -80, width:80, height:80, alignSelf: "center"}}
+                >
+                </Image>
+
                 <Text style={styles.greetings}>{'Hello!\nWellcome to ChatBot'}</Text>
 
                 <View  style={styles.errorMassage}>

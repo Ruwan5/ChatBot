@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import * as firebase from 'firebase';
+import {Ionicons} from '@expo/vector-icons';
+
 
 export default class RegisterScreen extends React.Component {
     state = {
@@ -26,6 +28,11 @@ export default class RegisterScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+
+                <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}>
+                    <Ionicons name="ios-arrow-round-back" size={32} color ="#FFF"></Ionicons>
+                </TouchableOpacity>
+
                 <Text style={styles.greetings}>{'Hello!\nSign Up to get started.'}</Text>
 
                 <View  style={styles.errorMassage}>
