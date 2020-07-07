@@ -1,9 +1,15 @@
+import React from 'react';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
+import { Icon } from 'react-native-elements';
+
 import LoadingScreen from './screens/LoadingScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen';
+
+
 
 import * as firebase from 'firebase';
 
@@ -26,6 +32,7 @@ const AppStack = createStackNavigator({
 const AuthStack = createStackNavigator({
     Login: {screen: LoginScreen, navigationOptions:{headerShown: false}},
     Register: {screen: RegisterScreen, navigationOptions:{headerShown: false}},
+
 });
 
 export default createAppContainer(
