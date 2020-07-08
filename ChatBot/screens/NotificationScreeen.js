@@ -5,7 +5,7 @@ export default class NotificationScreen extends React.Component {
     render() {
         return (
             <View style={StyleSheet.container}>
-                <Text>Message Screen</Text>
+                <Text>Notification Screen</Text>
             </View>
         );
     }

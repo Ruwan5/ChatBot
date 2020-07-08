@@ -28,15 +28,11 @@ export default class RegisterScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity style={styles.back} onPress={() => this.props.navigation.goBack()}>
-                    <Icon reverse name='add' type='metarial' color='#FFF'/>
-                </TouchableOpacity>
 
                 <View style={{ position: "absolute", top: 44, alignItems: "center", width: "100%"}}>
                     <Text style={styles.greetings}>{'Hello!\nSign Up to get started.'}</Text>
                     <TouchableOpacity style={styles.avatar}>
-                        {/* <Icon  name='add' type='metarial'/> */}
-                        {/* <Ionicons name="ios-add" size={40} color="#FFF" style={{marginTop: 6, marginLeft: 2}}></Ionicons> */}
+                        <Icon  name='add' type='metarial'/>
                     </TouchableOpacity>
                 </View>
 
@@ -130,8 +126,8 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     form: {
-        top: 100,
-        marginBottom: 120,
+        top: 180,
+        marginBottom: 200,
         marginHorizontal: 30
     },
     inputTitle: {
@@ -164,15 +160,4 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
     },
-    // back: {
-    //     position: "absolute",
-    //     top: 40,
-    //     left: 32,
-    //     width: 32,
-    //     height: 32,
-    //     borderRadius: 16,
-    //     backgroundColor: "rgba(21, 22, 48, 0.1)",
-    //     alignItems: "center",
-    //     justifyContent: "center"
-    // }
 })

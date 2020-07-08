@@ -34,12 +34,57 @@ const AppTabNavigator = createBottomTabNavigator(
         Home: {
             screen: HomeScreen,
             navigationOptions: {
-                tabBarIcon: ({tintColor}) => <Icon name="3d-rotation" size={24} color={tintColor}></Icon>
+                tabBarIcon: ({tintColor}) => <Icon name="home" size={24} color={tintColor}></Icon>
 
             }
-        }
+        },
+        Message: {
+            screen: MessageScreen,
+            navigationOptions: {
+                tabBarIcon: ({tintColor}) => <Icon name="chat" size={24} color={tintColor}></Icon>
+
+            }
+        },
+        Post: {
+            screen: PostScreen,
+            navigationOptions: {
+                tabBarIcon: ({tintColor}) =>
+                <Icon
+                    name="add"
+                    size={48}
+                    color="#E9446A"
+                    style={{
+                        shadowColor:"#E9446A",
+                        shadowOffset: { width: 0, height: 0},
+                        shadowRadius: 10,
+                        shadowOpacity: 0.3
+                    }}>
+                    </Icon>
+
+            }
+        },
+        Notification: {
+            screen: NotificationScreen,
+            navigationOptions: {
+                tabBarIcon: ({tintColor}) => <Icon name="notifications" size={24} color={tintColor}></Icon>
+
+            }
+        },
+        Profile: {
+            screen: ProfileScreen,
+            navigationOptions: {
+                tabBarIcon: ({tintColor}) => <Icon name="person" size={24} color={tintColor}></Icon>
+
+            }
+        },
     },
-    {}
+    {
+        tabBarOptions: {
+            activeTintColor: "#161F3D",
+            inactiveTintColor: "#B8BBC4",
+            showLabel: false
+        }
+    }
 )
 
 const AuthStack = createStackNavigator({

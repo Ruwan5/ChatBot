@@ -5,7 +5,7 @@ export default class PostScreen extends React.Component {
     render() {
         return (
             <View style={StyleSheet.container}>
-                <Text>Message Screen</Text>
+                <Text>Post Screen</Text>
             </View>
         );
     }

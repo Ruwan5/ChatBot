@@ -5,7 +5,7 @@ export default class ProfileScreen extends React.Component {
     render() {
         return (
             <View style={StyleSheet.container}>
-                <Text>Message Screen</Text>
+                <Text>Profile Screen</Text>
             </View>
         );
     }
