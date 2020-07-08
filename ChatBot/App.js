@@ -8,6 +8,10 @@ import LoadingScreen from './screens/LoadingScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen';
+import MessageScreen from './screens/MessageScreen';
+import PostScreen from './screens/PostScreen';
+import NotificationScreen from './screens/NotificationScreeen';
+import ProfileScreen from './screens/ProfileScreen';
 
 
 
@@ -25,9 +29,18 @@ var firebaseConfig = {
   // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-const AppStack = createStackNavigator({
-    Home: {screen: HomeScreen, navigationOptions:{headerShown: false}},
-});
+const AppTabNavigator = createBottomTabNavigator(
+    {
+        Home: {
+            screen: HomeScreen,
+            navigationOptions: {
+                tabBarIcon: ({tintColor}) => <Icon name="3d-rotation" size={24} color={tintColor}></Icon>
+
+            }
+        }
+    },
+    {}
+)
 
 const AuthStack = createStackNavigator({
     Login: {screen: LoginScreen, navigationOptions:{headerShown: false}},
@@ -38,7 +51,7 @@ const AuthStack = createStackNavigator({
 export default createAppContainer(
     createSwitchNavigator({
         Loading: LoadingScreen,
-        App: AppStack,
+        App: AppTabNavigator,
         Auth: AuthStack
     },
     {
