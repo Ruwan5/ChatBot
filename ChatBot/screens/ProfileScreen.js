@@ -4,7 +4,7 @@ import {View, Text, StyleSheet} from 'react-native';
 export default class ProfileScreen extends React.Component {
     render() {
         return (
-            <View style={StyleSheet.container}>
+            <View style={styles.container}>
                 <Text>Profile Screen</Text>
             </View>
         );
