@@ -29,61 +29,83 @@ var firebaseConfig = {
   // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-const AppTabNavigator = createBottomTabNavigator(
+const AppContainer = createStackNavigator(
     {
-        Home: {
-            screen: HomeScreen,
-            navigationOptions: {
-                tabBarIcon: ({tintColor}) => <Icon name="home" size={24} color={tintColor}></Icon>
+       default: createBottomTabNavigator(
 
-            }
-        },
-        Message: {
-            screen: MessageScreen,
-            navigationOptions: {
-                tabBarIcon: ({tintColor}) => <Icon name="chat" size={24} color={tintColor}></Icon>
+            {
+                Home: {
+                    screen: HomeScreen,
+                    navigationOptions: {
+                        tabBarIcon: ({tintColor}) => <Icon name="home" size={24} color={tintColor}></Icon>
 
-            }
-        },
-        Post: {
-            screen: PostScreen,
-            navigationOptions: {
-                tabBarIcon: ({tintColor}) =>
-                <Icon
-                    name="add"
-                    size={48}
-                    color="#E9446A"
-                    style={{
-                        shadowColor:"#E9446A",
-                        shadowOffset: { width: 0, height: 0},
-                        shadowRadius: 10,
-                        shadowOpacity: 0.3
-                    }}>
-                    </Icon>
+                    }
+                },
+                Message: {
+                    screen: MessageScreen,
+                    navigationOptions: {
+                        tabBarIcon: ({tintColor}) => <Icon name="chat" size={24} color={tintColor}></Icon>
 
-            }
-        },
-        Notification: {
-            screen: NotificationScreen,
-            navigationOptions: {
-                tabBarIcon: ({tintColor}) => <Icon name="notifications" size={24} color={tintColor}></Icon>
+                    }
+                },
+                Post: {
+                    screen: PostScreen,
+                    navigationOptions: {
+                        tabBarIcon: ({tintColor}) =>
+                        <Icon
+                            name="add"
+                            size={48}
+                            color="#E9446A"
+                            style={{
+                                shadowColor:"#E9446A",
+                                shadowOffset: { width: 0, height: 0},
+                                shadowRadius: 10,
+                                shadowOpacity: 0.3
+                            }}>
+                            </Icon>
 
-            }
-        },
-        Profile: {
-            screen: ProfileScreen,
-            navigationOptions: {
-                tabBarIcon: ({tintColor}) => <Icon name="person" size={24} color={tintColor}></Icon>
+                    }
+                },
+                Notification: {
+                    screen: NotificationScreen,
+                    navigationOptions: {
+                        tabBarIcon: ({tintColor}) => <Icon name="notifications" size={24} color={tintColor}></Icon>
 
+                    }
+                },
+                Profile: {
+                    screen: ProfileScreen,
+                    navigationOptions: {
+                        tabBarIcon: ({tintColor}) => <Icon name="person" size={24} color={tintColor}></Icon>
+
+                    }
+                },
+            },
+            {
+                defaultNavigationOptions: {
+                    tabBarOnPress: ({navigation, defaultHandler}) => {
+                        if(navigation.state.key === "post"){
+                            navigation.navigate("PostModal");
+                        } else {
+                            defaultHandler()
+                        }
+                    }
+                },
+                tabBarOptions: {
+                    activeTintColor: "#161F3D",
+                    inactiveTintColor: "#B8BBC4",
+                    showLabel: false
+                }
             }
-        },
+       ),
+       postModal: {
+           screen: PostScreen
+       }
     },
     {
-        tabBarOptions: {
-            activeTintColor: "#161F3D",
-            inactiveTintColor: "#B8BBC4",
-            showLabel: false
-        }
+        mode: "modal",
+        headerMode: "none",
+        initialRouteName: "postModal"
     }
 )
 
