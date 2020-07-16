@@ -105,7 +105,7 @@ const AppContainer = createStackNavigator(
     {
         mode: "modal",
         headerMode: "none",
-        initialRouteName: "postModal"
+        // initialRouteName: "postModal"
     }
 )
 
@@ -118,7 +118,7 @@ const AuthStack = createStackNavigator({
 export default createAppContainer(
     createSwitchNavigator({
         Loading: LoadingScreen,
-        App: AppTabNavigator,
+        App: AppContainer,
         Auth: AuthStack
     },
     {
