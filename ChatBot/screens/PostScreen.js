@@ -1,10 +1,83 @@
 import React from 'react';
 import {View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInput} from 'react-native';
-import Firebase from "./Firebase/Firebase"
+// import Firebase from "./Firebase/Firebase"
 import { Icon } from 'react-native-elements';
+import ImagePicker from 'react-native-image-picker';
 
 
 export default class PostScreen extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            text: "",
+            image: null
+        };
+    }
+
+    selectFile = () => {
+        var options = {
+          title: 'Select Image',
+          customButtons: [
+            {
+              name: 'customOptionKey',
+              title: 'Choose file from Custom Option'
+            },
+          ],
+          storageOptions: {
+            skipBackup: true,
+            path: 'images',
+          },
+        };
+
+        ImagePicker.showImagePicker(options, res => {
+          console.log('Response = ', res);
+
+          if (res.didCancel) {
+            console.log('User cancelled image picker');
+          } else if (res.error) {
+            console.log('ImagePicker Error: ', res.error);
+          } else if (res.customButton) {
+            console.log('User tapped custom button: ', res.customButton);
+            alert(res.customButton);
+          } else {
+            let source = res;
+            this.setState({
+              image: source
+            });
+          }
+        });
+    };
+
+    cameraLaunch = () => {
+        let options = {
+          storageOptions: {
+            skipBackup: true,
+            path: 'images',
+          },
+        };
+        ImagePicker.launchCamera(options, (res) => {
+          console.log('Response = ', res);
+
+          if (res.didCancel) {
+            console.log('User cancelled image picker');
+          } else if (res.error) {
+            console.log('ImagePicker Error: ', res.error);
+          } else if (res.customButton) {
+            console.log('User tapped custom button: ', res.customButton);
+            alert(res.customButton);
+          } else {
+            const source = { uri: res.uri };
+            console.log('response', JSON.stringify(res));
+            this.setState({
+              filePath: res,
+              fileData: res.data,
+              fileUri: res.uri
+            });
+          }
+        });
+    }
+
     render() {
         return (
             <SafeAreaView style={styles.container}>
@@ -26,9 +99,15 @@ export default class PostScreen extends React.Component {
                         placeholder="Want to share somthing">
                         </TextInput>
                 </View>
-                <TouchableOpacity style={styles.photo}>
-                    <Icon  name='photo' type='metarial' size={32} color="#D8D9DB"/>
-                </TouchableOpacity>
+                <View >
+                    <TouchableOpacity style={styles.photo} onPress={this.selectFile}>
+                        <Icon  name='photo' type='metarial' size={32} color="#D8D9DB"/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.photo} >
+                        <Icon  name='photo' type='metarial' size={32} color="#D8D9DB"/>
+                    </TouchableOpacity>
+                </View>
+
                 {/* <View style={{marginHorizontal: 32, marginTop: 32, height: 150}}>
                     <Image source={{uri: this.state.image}} style={{ width: "100%", height: "100%"}}></Image>
                 </View> */}
@@ -60,7 +139,7 @@ const styles = StyleSheet.create({
         marginRight: 16
     },
     photo: {
-        alignItems: 'flex-end',
+        alignItems: "flex-end",
         marginHorizontal: 32
-    }
+    },
 });
