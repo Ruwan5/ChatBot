@@ -70,9 +70,7 @@ export default class PostScreen extends React.Component {
             const source = { uri: res.uri };
             console.log('response', JSON.stringify(res));
             this.setState({
-              filePath: res,
-              fileData: res.data,
-              fileUri: res.uri
+              image: res.uri
             });
           }
         });
@@ -103,7 +101,7 @@ export default class PostScreen extends React.Component {
                     <TouchableOpacity style={styles.photo} onPress={this.selectFile}>
                         <Icon  name='photo' type='metarial' size={32} color="#D8D9DB"/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.photo} >
+                    <TouchableOpacity style={styles.photo} onPress={this.cameraLaunch}>
                         <Icon  name='photo' type='metarial' size={32} color="#D8D9DB"/>
                     </TouchableOpacity>
                 </View>
