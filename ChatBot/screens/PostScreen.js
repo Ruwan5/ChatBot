@@ -76,6 +76,36 @@ export default class PostScreen extends React.Component {
         });
     }
 
+    imageGalleryLaunch = () => {
+        let options = {
+          storageOptions: {
+            skipBackup: true,
+            path: 'images',
+          },
+        };
+
+        ImagePicker.launchImageLibrary(options, (res) => {
+          console.log('Response = ', res);
+
+          if (res.didCancel) {
+            console.log('User cancelled image picker');
+          } else if (res.error) {
+            console.log('ImagePicker Error: ', res.error);
+          } else if (res.customButton) {
+            console.log('User tapped custom button: ', res.customButton);
+            alert(res.customButton);
+          } else {
+            const source = { uri: res.uri };
+            console.log('response', JSON.stringify(res));
+            this.setState({
+              filePath: res,
+              fileData: res.data,
+              fileUri: res.uri
+            });
+          }
+        });
+    }
+
     render() {
         return (
             <SafeAreaView style={styles.container}>
@@ -102,7 +132,10 @@ export default class PostScreen extends React.Component {
                         <Icon  name='photo' type='metarial' size={32} color="#D8D9DB"/>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.photo} onPress={this.cameraLaunch}>
-                        <Icon  name='photo' type='metarial' size={32} color="#D8D9DB"/>
+                        <Icon  name='camera' type='metarial' size={32} color="#D8D9DB"/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.photo} onPress={this.imageGalleryLaunch}>
+                        <Icon  name='add-to-photos' type='metarial' size={32} color="#D8D9DB"/>
                     </TouchableOpacity>
                 </View>
 
