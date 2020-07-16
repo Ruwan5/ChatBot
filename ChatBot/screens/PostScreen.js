@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInput} from 'react-native';
-// import Firebase from "./Firebase/Firebase"
+import Firebase from "./Firebase/Firebase"
 import { Icon } from 'react-native-elements';
 
 
