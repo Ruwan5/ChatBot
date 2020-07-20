@@ -43,7 +43,7 @@ export default class PostScreen extends React.Component {
           } else {
             let source = res;
             this.setState({
-              image: source
+              image: source.uri
             });
           }
         });
@@ -98,9 +98,7 @@ export default class PostScreen extends React.Component {
             const source = { uri: res.uri };
             console.log('response', JSON.stringify(res));
             this.setState({
-              filePath: res,
-              fileData: res.data,
-              fileUri: res.uri
+              image: res.uri
             });
           }
         });
@@ -139,9 +137,9 @@ export default class PostScreen extends React.Component {
                     </TouchableOpacity>
                 </View>
 
-                {/* <View style={{marginHorizontal: 32, marginTop: 32, height: 150}}>
+                <View style={{marginHorizontal: 32, marginTop: 32, height: 150}}>
                     <Image source={{uri: this.state.image}} style={{ width: "100%", height: "100%"}}></Image>
-                </View> */}
+                </View>
             </SafeAreaView>
         );
     }
