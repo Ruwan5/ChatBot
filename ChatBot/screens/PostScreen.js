@@ -15,6 +15,16 @@ export default class PostScreen extends React.Component {
         };
     }
 
+    sendPost = () => {
+      Firebase.shared.addPost({ text: this.state.text.trim(), localUrl: this.state.image}).then(res =>{
+        this.setState({text: "", image: null})
+
+      })
+      .catch(err => {
+        alert(err);
+      })
+    }
+
     selectFile = () => {
         var options = {
           title: 'Select Image',
