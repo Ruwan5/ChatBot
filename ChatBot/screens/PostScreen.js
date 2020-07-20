@@ -118,10 +118,10 @@ export default class PostScreen extends React.Component {
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                         <Icon  name='arrow-back' type='metarial'/>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.sendPost}>
                         <Text style={{ fontWeight: "500"}}>Post</Text>
                     </TouchableOpacity>
                 </View>
