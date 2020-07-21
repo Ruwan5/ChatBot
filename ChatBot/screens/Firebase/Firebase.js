@@ -2,23 +2,23 @@
 import * as firebase from 'firebase';
 // import firebaseConfig from "../../App"
 
-const firebaseConfig = {
-    apiKey: "AIzaSyC90VUvarpkhqlKMofe1KOm9JGAjdW5V1Y",
-    authDomain: "chatbot-b0191.firebaseapp.com",
-    databaseURL: "https://chatbot-b0191.firebaseio.com",
-    projectId: "chatbot-b0191",
-    storageBucket: "chatbot-b0191.appspot.com",
-    messagingSenderId: "694802794380",
-    appId: "1:694802794380:web:63cab10b7f1cc8436a38a9"
-};
+// const firebaseConfig = {
+//     apiKey: "AIzaSyC90VUvarpkhqlKMofe1KOm9JGAjdW5V1Y",
+//     authDomain: "chatbot-b0191.firebaseapp.com",
+//     databaseURL: "https://chatbot-b0191.firebaseio.com",
+//     projectId: "chatbot-b0191",
+//     storageBucket: "chatbot-b0191.appspot.com",
+//     messagingSenderId: "694802794380",
+//     appId: "1:694802794380:web:63cab10b7f1cc8436a38a9"
+// };
 
 class Firebase {
-    constructor() {
-        if(!firebase.apps.length){
-            firebase.initializeApp(firebaseConfig);
-        }
+    // constructor() {
+    //     if(!firebase.apps.length){
+    //         firebase.initializeApp(firebaseConfig);
+    //     }
 
-    }
+    // }
 
     addPost = async ({text, localUrl}) => {
         console.log(text)
