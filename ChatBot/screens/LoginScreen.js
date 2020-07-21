@@ -37,10 +37,6 @@ export default class LoginScreen extends React.Component {
 
                 <Text style={styles.greetings}>{'Hello!\nWellcome to ChatBot'}</Text>
 
-                <View  style={styles.errorMassage}>
-                    {this.state.errorMessage && <Text style={styles.error}>{this.state.errorMessage}</Text> }
-                </View>
-
                 <View style={styles.form}>
                     <View>
                         <Text style={styles.inputTitle}>Email Adress</Text>
@@ -52,7 +48,7 @@ export default class LoginScreen extends React.Component {
                         </TextInput>
                     </View>
 
-                    <View style={{marginTop: 32}}>
+                    <View style={{marginTop: 28}}>
                         <Text style={styles.inputTitle}>Password</Text>
                         <TextInput
                             style={styles.input}
@@ -63,6 +59,10 @@ export default class LoginScreen extends React.Component {
 
                         </TextInput>
                     </View>
+                </View>
+
+                <View  style={styles.errorMassage}>
+                    {this.state.errorMessage && <Text style={styles.error}>{this.state.errorMessage}</Text> }
                 </View>
 
                 <TouchableOpacity style={styles.button} onPress={this.handleLogin}>
@@ -105,7 +105,8 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     form: {
-        marginBottom: 48,
+        marginTop: 50,
+        marginBottom: 15,
         marginHorizontal: 30
     },
     inputTitle: {

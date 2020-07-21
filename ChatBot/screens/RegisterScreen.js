@@ -2,31 +2,60 @@ import React from 'react';
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
 import * as firebase from 'firebase';
 import { Icon } from 'react-native-elements';
+import ImagePicker from 'react-native-image-picker';
+import Firebase from './Firebase/Firebase'
 
 
 export default class RegisterScreen extends React.Component {
     state = {
-        user: {
+
+        user : {
             fname: "",
             lname: "",
             email: "",
             password: "",
-            avatar: null
+            avatar: null,
         },
         errorMessage: null
     }
 
     handleSignUp = () => {
-        firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.state.email, this.state.password)
-        .then(userCredentials => {
-            return userCredentials.user.updateProfile({
-                displayName: this.state.fname + this.state.lname
-            })
+
+        Firebase.shared.createUser(this.state.user).then(res =>{
+            alert("User created successfully!");
         })
-        .catch(error => this.setState({errorMessage: error.message}));
     }
+
+    handlePickAvater = async () => {
+            let options = {
+              storageOptions: {
+                skipBackup: true,
+                path: 'images',
+              },
+            };
+
+            ImagePicker.launchImageLibrary(options, (res) => {
+              console.log('Response = ', res);
+
+              if (res.didCancel) {
+                console.log('User cancelled image picker');
+              } else if (res.error) {
+                console.log('ImagePicker Error: ', res.error);
+              } else if (res.customButton) {
+                console.log('User tapped custom button: ', res.customButton);
+                alert(res.customButton);
+              } else {
+                const source = { uri: res.uri };
+                console.log('response', JSON.stringify(res));
+                this.setState({
+                    user: {...this.state.user, avatar: res.uri}
+                });
+              }
+              console.log(this.state.user.avatar)
+            });
+
+    };
+
 
     render() {
         return (
@@ -34,9 +63,14 @@ export default class RegisterScreen extends React.Component {
 
                 <View style={{ position: "absolute", top: 44, alignItems: "center", width: "100%"}}>
                     <Text style={styles.greetings}>{'Hello!\nSign Up to get started.'}</Text>
-                    <TouchableOpacity style={styles.avatar}>
+                    <TouchableOpacity style={styles.avaterPlaceholder} onPress={this.handlePickAvater}>
                         <Image source={{uri: this.state.user.avatar}} style={styles.avatar}/>
-                        <Icon  name='add' type='metarial'/>
+                        <Icon
+                            name='add'
+                            type='metarial'
+                            size={40}
+                            color="#FFF"
+                            style={{marginTop: 6, marginLeft: 2}}/>
                     </TouchableOpacity>
                 </View>
 
@@ -48,18 +82,18 @@ export default class RegisterScreen extends React.Component {
                         <TextInput
                             style={styles.input}
                             autoCapitalize="none"
-                            onChangeText={fname => this.setState({ fname })}
-                            value={this.state.fname}>
+                            onChangeText={fname => this.setState({ user: {...this.state.user, fname} })}
+                            value={this.state.user.fname}>
                         </TextInput>
                     </View>
 
-                    <View style={{marginTop: 32}}>
+                    <View style={{marginTop: 30}}>
                         <Text style={styles.inputTitle}>Last Name</Text>
                         <TextInput
                             style={styles.input}
                             autoCapitalize="none"
-                            onChangeText={lname => this.setState({ lname })}
-                            value={this.state.lname}>
+                            onChangeText={lname => this.setState({  user: {...this.state.user, lname} })}
+                            value={this.state.user.lname}>
                         </TextInput>
                     </View>
 
@@ -68,8 +102,8 @@ export default class RegisterScreen extends React.Component {
                         <TextInput
                             style={styles.input}
                             autoCapitalize="none"
-                            onChangeText={email => this.setState({ email })}
-                            value={this.state.email}>
+                            onChangeText={email => this.setState({ user: {...this.state.user, email} })}
+                            value={this.state.user.email}>
                         </TextInput>
                     </View>
 
@@ -79,11 +113,15 @@ export default class RegisterScreen extends React.Component {
                             style={styles.input}
                             secureTextEntry
                             autoCapitalize="none"
-                            onChangeText={password => this.setState({ password})}
-                            value={this.state.password}>
+                            onChangeText={password => this.setState({  user: {...this.state.user, password} })}
+                            value={this.state.user.password}>
 
                         </TextInput>
                     </View>
+                </View>
+
+                <View  style={styles.errorMassage}>
+                    {this.state.errorMessage && <Text style={styles.error}>{this.state.errorMessage}</Text> }
                 </View>
 
                 <TouchableOpacity style={styles.button} onPress={this.handleSignUp}>
@@ -96,9 +134,7 @@ export default class RegisterScreen extends React.Component {
                     </Text>
                 </TouchableOpacity>
 
-                <View  style={styles.errorMassage}>
-                    {this.state.errorMessage && <Text style={styles.error}>{this.state.errorMessage}</Text> }
-                </View>
+
             </View>
 
 
@@ -155,13 +191,20 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
+    avaterPlaceholder: {
+        width: 100,
+        height: 100,
+        backgroundColor: "#E1E2E6",
+        borderRadius: 50,
+        marginTop: 20,
+        justifyContent: "center",
+        alignItems: "center"
+    },
     avatar: {
+        position: "absolute",
         width: 100,
         height: 100,
         borderRadius: 50,
-        backgroundColor: "#E1E2E6",
-        marginTop: 15,
-        justifyContent: "center",
-        alignItems: "center"
+
     },
 })

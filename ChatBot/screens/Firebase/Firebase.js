@@ -1,5 +1,6 @@
 // import firebase from "firebase";
 import * as firebase from 'firebase';
+import { YellowBox } from 'react-native';
 // import firebaseConfig from "../../App"
 
 // const firebaseConfig = {
@@ -13,6 +14,9 @@ import * as firebase from 'firebase';
 // };
 
 class Firebase {
+    construct() {
+        YellowBox.ignoreWarnings(['Setting a timer']);
+    }
     // constructor() {
     //     if(!firebase.apps.length){
     //         firebase.initializeApp(firebaseConfig);
@@ -33,7 +37,7 @@ class Firebase {
                 alert("Successfully Posted!")
             )
         } else {
-            var remoteUrl = this.uploadPhotoAsync(localUrl);
+            var remoteUrl = this.uploadPhotoAsync(localUrl, `photos/${this.uid}/${Date.now()}.jpg`);
             console.log(remoteUrl)
             firebase.firestore().collection("posts").add({
                 text: text.toString(),
@@ -70,20 +74,50 @@ class Firebase {
         // })
     }
 
-    uploadPhotoAsync = async url => {
-        const path = `photos/${this.uid}/${Date.now()}.jpg`
+    uploadPhotoAsync = async (url, filename) => {
+        // const path = `photos/${this.uid}/${Date.now()}.jpg`
+        const path = filename
         console.log(path)
         return new Promise(async (res, rej) => {
             const response = await fetch(url)
             const file = await response.blob()
 
-            let upload = firebase.storage().ref(path).put(file)
+            let upload = firebase.storage().ref(filename).put(file)
 
             upload.on("state_changed", snapshot => {}, err => {
                 rej(err);
             })
         })
     }
+
+
+    createUser = async user => {
+        let remoteUrl = null
+
+        try{
+            await firebase.auth().createUserWithEmailAndPassword(user.email, user.password);
+
+            let db = this.firestore.collection("users").doc(this.uid.toString());
+
+            db.set({
+                fname: user.fname,
+                lname: user.lname,
+                email: user.email,
+                avatar: null
+            });
+
+            if(user.avatar){
+                remoteUrl = await this.uploadPhotoAsync(user.avatar, `avatars/${this.uid}.jpg`);
+
+                db.set({avatar: remoteUrl}, {merge: true})
+                alert("User created successfully!");
+            }
+
+        } catch (err){
+            alert(err);
+        }
+    }
+
 
 
     get firestore(){
