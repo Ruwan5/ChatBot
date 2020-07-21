@@ -1,9 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInput} from 'react-native';
-// import Firebase from "./Firebase/Firebase"
+import Firebase from "./Firebase/Firebase"
 import { Icon } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 
+const firebase = require("firebase");
+require("firebase/firestore");
 
 export default class PostScreen extends React.Component {
 
@@ -28,12 +30,6 @@ export default class PostScreen extends React.Component {
     selectFile = () => {
         var options = {
           title: 'Select Image',
-          customButtons: [
-            {
-              name: 'customOptionKey',
-              title: 'Choose file from Custom Option'
-            },
-          ],
           storageOptions: {
             skipBackup: true,
             path: 'images',
@@ -132,7 +128,9 @@ export default class PostScreen extends React.Component {
                         multiline={true}
                         numberOfLines={4}
                         style={{flex:1}}
-                        placeholder="Want to share somthing">
+                        placeholder="Want to share somthing"
+                        onChangeText={text => this.setState({text})}
+                        value={this.state.text}>
                         </TextInput>
                 </View>
                 <View >

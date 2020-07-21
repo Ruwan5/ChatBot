@@ -1,6 +1,8 @@
-import firebase from "firebase";
+// import firebase from "firebase";
+import * as firebase from 'firebase';
+// import firebaseConfig from "../../App"
 
-var firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyC90VUvarpkhqlKMofe1KOm9JGAjdW5V1Y",
     authDomain: "chatbot-b0191.firebaseapp.com",
     databaseURL: "https://chatbot-b0191.firebaseio.com",
@@ -12,33 +14,65 @@ var firebaseConfig = {
 
 class Firebase {
     constructor() {
-        firebase.initializeApp(firebaseConfig);
+        if(!firebase.apps.length){
+            firebase.initializeApp(firebaseConfig);
+        }
+
     }
 
     addPost = async ({text, localUrl}) => {
-        const remoteUrl = await this.uploadPhotoAsync(localUrl);
+        console.log(text)
+        console.log(localUrl)
+        if(localUrl == null){
+            let posts ={}
+            posts['text'] = text.toString();
+            posts['uid'] = this.uid.toString(),
+            posts['timestamp'] = this.timestamp.toString(),
 
-        return new Promise((res, rej) => {
-            this.firestore
-                .collection("posts")
-                .add({
-                    text,
-                    uid: this.uid,
-                    timestamp: this.timestamp,
-                    image: remoteUrl
-                })
-                .then(ref => {
-                    res(ref);
-                })
-                .catch(error => {
-                    rej(error);
-                })
-        })
+            firebase.firestore().collection("posts").add(posts).then(
+                alert("Successfully Posted!")
+            )
+        } else {
+            var remoteUrl = this.uploadPhotoAsync(localUrl);
+            console.log(remoteUrl)
+            firebase.firestore().collection("posts").add({
+                text: text.toString(),
+                uid: this.uid.toString(),
+                timestamp: this.timestamp.toString(),
+                image: remoteUrl.toString()
+            }).then(
+                alert("Successfully Posted!")
+            )
+        }
+
+
+        // firebase.firestore().collection("posts").add({
+        //     text,
+        //     uid: this.uid,
+        //     timestamp: this.timestamp,
+        //     image: remoteUrl
+        // })
+        // return new Promise(async (res, rej) => {
+        //      firebase.firestore()
+        //         .collection("posts")
+        //         .add({
+        //             text: text,
+        //             uid: this.uid,
+        //             timestamp: this.timestamp,
+        //             image: remoteUrl
+        //         })
+        //         .then(ref => {
+        //             res(ref);
+        //         })
+        //         .catch(error => {
+        //             rej(error);
+        //         })
+        // })
     }
 
     uploadPhotoAsync = async url => {
         const path = `photos/${this.uid}/${Date.now()}.jpg`
-
+        console.log(path)
         return new Promise(async (res, rej) => {
             const response = await fetch(url)
             const file = await response.blob()

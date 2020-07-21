@@ -17,7 +17,7 @@ import ProfileScreen from './screens/ProfileScreen';
 
 import * as firebase from 'firebase';
 
-var firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyC90VUvarpkhqlKMofe1KOm9JGAjdW5V1Y",
     authDomain: "chatbot-b0191.firebaseapp.com",
     databaseURL: "https://chatbot-b0191.firebaseio.com",
