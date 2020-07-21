@@ -1,15 +1,18 @@
 import React from 'react';
-import {View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
 import * as firebase from 'firebase';
 import { Icon } from 'react-native-elements';
 
 
 export default class RegisterScreen extends React.Component {
     state = {
-        fname: "",
-        lname: "",
-        email: "",
-        password: "",
+        user: {
+            fname: "",
+            lname: "",
+            email: "",
+            password: "",
+            avatar: null
+        },
         errorMessage: null
     }
 
@@ -32,6 +35,7 @@ export default class RegisterScreen extends React.Component {
                 <View style={{ position: "absolute", top: 44, alignItems: "center", width: "100%"}}>
                     <Text style={styles.greetings}>{'Hello!\nSign Up to get started.'}</Text>
                     <TouchableOpacity style={styles.avatar}>
+                        <Image source={{uri: this.state.user.avatar}} style={styles.avatar}/>
                         <Icon  name='add' type='metarial'/>
                     </TouchableOpacity>
                 </View>

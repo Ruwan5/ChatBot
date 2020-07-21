@@ -2,14 +2,14 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, LayoutAnimation, Image, FlatList} from 'react-native';
 import * as firebase from 'firebase';
 import { Icon } from 'react-native-elements';
-// import { FlatList } from 'react-native-gesture-handler';
+import moment from 'moment'
 
 let posts = [
     {
         id: "1",
         name: "Ruwan chamara",
         text: "sijdfiokdmfkdmfijdfodkfodjfdjfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffmd",
-        timestamp: 152142114,
+        timestamp: 52418542,
         avater: require("../assets/avatar.png"),
         image: require("../assets/new.jpg")
     },
@@ -19,7 +19,7 @@ let posts = [
         text: "sijdfiokdmfkdmfijdfodkfodjfdjfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffmd",
         timestamp: 152142114,
         avater: require("../assets/avatar.png"),
-        image: require("../assets/5.jpg")
+        image: require("../assets/9.jpg")
     },
     {
         id: "3",
@@ -43,7 +43,7 @@ export default class HomeScreen extends React.Component {
                     <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
                         <View>
                             <Text style={styles.name}>{post.name}</Text>
-                            <Text style={styles.timestamp}>{post.timestamp}</Text>
+                            <Text style={styles.timestamp}>{moment(post.timestamp).fromNow()}</Text>
                         </View>
 
                         <Icon name="more" size={24} color="#737888"/>
@@ -52,6 +52,11 @@ export default class HomeScreen extends React.Component {
 
                     <Text style={styles.posts}>{post.text}</Text>
                     <Image source={post.image} style={styles.postImage} resizeMode="cover"/>
+
+                    <View style={{flexDirection: "row"}}>
+                        <Icon name="favorite" size={24} color="#737888" style={{marginRight: 16}}/>
+                        <Icon name="chat" size={24} color="#737888" />
+                    </View>
                 </View>
             </View>
 
@@ -131,7 +136,7 @@ const styles = StyleSheet.create({
         marginTop: 4
     },
     posts: {
-        margin: 16,
+        marginTop: 16,
         fontSize: 14,
         color: "#838899"
     },
