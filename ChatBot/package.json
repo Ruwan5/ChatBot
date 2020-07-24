@@ -10,9 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@firebase/auth": "^0.14.9",
+    "@firebase/firestore": "^1.16.1",
     "@react-native-community/masked-view": "^0.1.10",
     "@typescript-eslint/eslint-plugin": "^3.6.1",
-    "firebase": "^7.14.5",
+    "firebase": "^7.16.1-canary.ea699fac",
     "moment": "^2.27.0",
     "react": "16.11.0",
     "react-native": "0.62.2",

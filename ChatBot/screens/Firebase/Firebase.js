@@ -1,6 +1,7 @@
-// import firebase from "firebase";
-import * as firebase from 'firebase';
-import { YellowBox } from 'react-native';
+import firebase from "firebase";
+import "@firebase/firestore"
+
+
 // import firebaseConfig from "../../App"
 
 // const firebaseConfig = {
@@ -14,9 +15,6 @@ import { YellowBox } from 'react-native';
 // };
 
 class Firebase {
-    construct() {
-        YellowBox.ignoreWarnings(['Setting a timer']);
-    }
     // constructor() {
     //     if(!firebase.apps.length){
     //         firebase.initializeApp(firebaseConfig);
@@ -28,23 +26,23 @@ class Firebase {
         console.log(text)
         console.log(localUrl)
         if(localUrl == null){
-            let posts ={}
-            posts['text'] = text.toString();
-            posts['uid'] = this.uid.toString(),
-            posts['timestamp'] = this.timestamp.toString(),
 
-            firebase.firestore().collection("posts").add(posts).then(
+            firebase.firestore().collection("posts").add(
+                {text: text.toString(),
+                uid: this.uid.toString(),
+                timestamp: this.timestamp.toString()},
+            ).then(
                 alert("Successfully Posted!")
             )
         } else {
             var remoteUrl = this.uploadPhotoAsync(localUrl, `photos/${this.uid}/${Date.now()}.jpg`);
             console.log(remoteUrl)
-            firebase.firestore().collection("posts").add({
-                text: text.toString(),
+            firebase.firestore().collection("posts").add(
+                {text: text.toString(),
                 uid: this.uid.toString(),
                 timestamp: this.timestamp.toString(),
-                image: remoteUrl.toString()
-            }).then(
+                image: remoteUrl.toString()}
+            ).then(
                 alert("Successfully Posted!")
             )
         }
@@ -110,8 +108,9 @@ class Firebase {
                 remoteUrl = await this.uploadPhotoAsync(user.avatar, `avatars/${this.uid}.jpg`);
 
                 db.set({avatar: remoteUrl}, {merge: true})
-                alert("User created successfully!");
             }
+
+            alert("User created successfully!");
 
         } catch (err){
             alert(err);

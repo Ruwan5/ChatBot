@@ -34,6 +34,17 @@ let posts = [
 
 export default class HomeScreen extends React.Component {
 
+    // state = {
+    //     email: "",
+    //     displayName: ""
+    // }
+
+    // componentDidMount() {
+    //     const {email, displayName} = firebase.auth().currentUser;
+    //     this.setState({email, displayName});
+    // }
+
+
     renderPost = post => {
         return (
             <View style={styles.feedItem}>
@@ -72,6 +83,7 @@ export default class HomeScreen extends React.Component {
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Text style={styles.headerTitle}>Feed</Text>
+
                 </View>
 
                 <FlatList

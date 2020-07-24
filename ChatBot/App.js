@@ -12,6 +12,7 @@ import MessageScreen from './screens/MessageScreen';
 import PostScreen from './screens/PostScreen';
 import NotificationScreen from './screens/NotificationScreeen';
 import ProfileScreen from './screens/ProfileScreen';
+import { YellowBox } from 'react-native';
 
 
 
@@ -28,8 +29,11 @@ const firebaseConfig = {
   };
   // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+console.ignoredYellowBox = ['Setting a timer'];
+
 
 const AppContainer = createStackNavigator(
+
     {
        default: createBottomTabNavigator(
 
@@ -116,13 +120,16 @@ const AuthStack = createStackNavigator({
 });
 
 export default createAppContainer(
+
     createSwitchNavigator({
         Loading: LoadingScreen,
+        Auth: AuthStack,
         App: AppContainer,
-        Auth: AuthStack
+
     },
     {
-        initialRouteName: "Auth"
+        initialRouteName: "Loading"
     }
-    )
+    ),
+    YellowBox.ignoreWarnings(['Setting a timer']),
 );

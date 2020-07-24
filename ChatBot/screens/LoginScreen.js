@@ -1,6 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet, TextInput, TouchableOpacity,Image, StatusBar, LayoutAnimation} from 'react-native';
-import * as firebase from 'firebase';
+import { firebase } from '@firebase/app';
+import '@firebase/firestore'
+import '@firebase/auth';
+require("firebase/firestore");
+
 
 export default class LoginScreen extends React.Component {
     state = {
@@ -10,9 +14,7 @@ export default class LoginScreen extends React.Component {
     }
 
     handleLogin = () => {
-
         const {email, password} = this.state
-
         firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
