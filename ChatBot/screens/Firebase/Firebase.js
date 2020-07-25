@@ -1,5 +1,5 @@
 import firebase from "firebase";
-import "@firebase/firestore"
+import firestore from '@react-native-firebase/firestore'
 
 
 // import firebaseConfig from "../../App"
@@ -27,10 +27,11 @@ class Firebase {
         console.log(localUrl)
         if(localUrl == null){
 
-            firebase.firestore().collection("posts").add(
+            firestore().collection("posts").add(
                 {text: text.toString(),
                 uid: this.uid.toString(),
-                timestamp: this.timestamp.toString()},
+                timestamp: this.timestamp.toString(),
+                image: null},
             ).then(
                 alert("Successfully Posted!")
             )
