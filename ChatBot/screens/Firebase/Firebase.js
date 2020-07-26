@@ -62,9 +62,8 @@ class Firebase {
         try{
             await firebase.auth().createUserWithEmailAndPassword(user.email, user.password);
 
-            let db = firestore().collection("users").doc(this.uid.toString());
-
-            db.set({
+            firestore().collection("users").doc(this.uid.toString())
+            .set({
                 fname: user.fname,
                 lname: user.lname,
                 email: user.email,
@@ -74,7 +73,7 @@ class Firebase {
             if(user.avatar){
                 remoteUrl = await this.uploadPhotoAsync(user.avatar, `avatars/${this.uid}.jpg`);
 
-                db.set({avatar: remoteUrl}, {merge: true})
+                firestore().collection("users").doc(this.uid.toString()).set({avatar: remoteUrl}, {merge: true})
             }
 
             alert("User created successfully!");
