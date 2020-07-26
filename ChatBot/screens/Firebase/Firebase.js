@@ -1,5 +1,7 @@
 import firebase from "firebase";
 import firestore from '@react-native-firebase/firestore'
+import { Alert} from 'react-native';
+
 
 
 class Firebase {
@@ -14,7 +16,7 @@ class Firebase {
                 timestamp: this.timestamp.toString(),
                 image: null},
             ).then(
-                alert("Successfully Posted!")
+              Alert.alert("Successfully Posted!")
             )
         } else {
             this.uploadPhotoAsync(localUrl, `photos/${this.uid}/${Date.now()}.jpg`).then(res => {
@@ -27,7 +29,7 @@ class Firebase {
                     image: remoteUrl}
                 )
                 .then(
-                    alert("Successfully Posted!")
+                    Alert.alert("Successfully Posted!")
                 )
             })
 
@@ -76,7 +78,7 @@ class Firebase {
                 firestore().collection("users").doc(this.uid.toString()).set({avatar: remoteUrl}, {merge: true})
             }
 
-            alert("User created successfully!");
+            Alert.alert("User created successfully!");
 
         } catch (err){
             alert(err);

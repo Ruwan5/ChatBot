@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInput} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInput, Alert} from 'react-native';
 import Firebase from "./Firebase/Firebase"
 import { Icon } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
@@ -133,7 +133,7 @@ export default class PostScreen extends React.Component {
                         value={this.state.text}>
                         </TextInput>
                 </View>
-                <View >
+                <View style={{flexDirection: "row", justifyContent: "center"}}>
                     <TouchableOpacity style={styles.photo} onPress={this.selectFile}>
                         <Icon  name='photo' type='metarial' size={32} color="#D8D9DB"/>
                     </TouchableOpacity>
