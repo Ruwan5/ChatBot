@@ -14,8 +14,6 @@ export default class ProfileScreen extends React.Component {
     unsubscribe = null;
 
     componentDidMount() {
-        // const {email, displayName} = firebase.auth().currentUser;
-        // this.setState({email, displayName});
         const user = this.props.uid || Firebase.shared.uid
 
         this.unsubscribe = firestore().collection("users").doc(user).onSnapshot(doc => {
@@ -59,10 +57,10 @@ export default class ProfileScreen extends React.Component {
                         <Text style={styles.stateTitle}>Following</Text>
                     </View>
                 </View>
-                <View style={styles.logout}>
 
-                    <Button  onPress={() => {this.signOutUser()}} title="Log out" />
-                </View>
+                    <TouchableOpacity onPress={() => {this.signOutUser()}} style={styles.logout} >
+                        <Text style={{ alignSelf: "center", color: "#FFF", fontSize: 20}}>Log out</Text>
+                    </TouchableOpacity>
 
 
             </View>
@@ -110,8 +108,8 @@ const styles = StyleSheet.create({
         marginTop: 4
     },
     logout:{
-        marginRight:40,
-        marginLeft:40,
+        marginRight:100,
+        marginLeft:100,
         marginTop:10,
         paddingTop:20,
         paddingBottom:20,

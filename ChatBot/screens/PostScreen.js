@@ -3,18 +3,32 @@ import {View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInput
 import Firebase from "./Firebase/Firebase"
 import { Icon } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
+import firestore from '@react-native-firebase/firestore'
 
 const firebase = require("firebase");
 require("firebase/firestore");
 
 export default class PostScreen extends React.Component {
 
+
+
     constructor(props) {
         super(props);
         this.state = {
+            user: {},
             text: "",
             image: null
         };
+    }
+
+    componentDidMount() {
+      const user = this.props.uid || Firebase.shared.uid
+
+      firestore().collection("users").doc(user).onSnapshot(doc => {
+          this.setState({user: doc.data() })
+
+      })
+
     }
 
     sendPost = () => {
@@ -122,7 +136,7 @@ export default class PostScreen extends React.Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.inputContainer}>
-                    <Image source={require("../assets/avatar.png")} style={styles.avatar}></Image>
+                    <Image style={styles.avatar} source={this.state.user.avatar ? {uri: this.state.user.avatar} : require('../assets/avatar.png')} />
                     <TextInput
                         autoFocus={true}
                         multiline={true}
