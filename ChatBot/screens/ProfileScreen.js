@@ -35,7 +35,10 @@ export default class ProfileScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.headerTitle}>Profile</Text>
 
+                </View>
                 <View style={{ marginTop: 64, alignItems: "center"}}>
                     <View style={styles.avatarContainer}>
                         <Image style={styles.avatar} source={this.state.user.avatar ? {uri: this.state.user.avatar} : require('../assets/avatar.png')} />
@@ -118,5 +121,23 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#fff'
       },
+      header: {
+        paddingTop: 64,
+        paddingBottom: 16,
+        backgroundColor: "#FFF",
+        alignItems: "center",
+        justifyContent: "center",
+        borderBottomWidth: 5,
+        borderBottomColor: "#EBECF4",
+        shadowColor: "#454D65",
+        shadowOffset: {height: 5},
+        shadowRadius: 15,
+        shadowOpacity: 0.2,
+        zIndex: 10
+    },
+    headerTitle: {
+        fontSize: 20,
+        fontWeight: "500"
+    }
 
 });

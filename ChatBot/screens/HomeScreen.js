@@ -3,46 +3,45 @@ import {View, Text, StyleSheet, TouchableOpacity, LayoutAnimation, Image, FlatLi
 import * as firebase from 'firebase';
 import { Icon } from 'react-native-elements';
 import moment from 'moment'
+import firestore from '@react-native-firebase/firestore'
+import Firebase from "./Firebase/Firebase"
 
-let posts = [
-    {
-        id: "1",
-        name: "Ruwan chamara",
-        text: "sijdfiokdmfkdmfijdfodkfodjfdjfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffmd",
-        timestamp: 52418542,
-        avater: require("../assets/avatar.png"),
-        image: require("../assets/new.jpg")
-    },
-    {
-        id: "2",
-        name: "Ruwan chamara",
-        text: "sijdfiokdmfkdmfijdfodkfodjfdjfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffmd",
-        timestamp: 152142114,
-        avater: require("../assets/avatar.png"),
-        image: require("../assets/9.jpg")
-    },
-    {
-        id: "3",
-        name: "Ruwan chamara",
-        text: "sijdfiokdmfkdmfijdfodkfodjfdjfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffmd",
-        timestamp: 152142114,
-        avater: require("../assets/avatar.png"),
-        image: require("../assets/1.jpg")
-    }
-];
+// let posts = [
+//     {
+//         id: "1",
+//         name: "Ruwan chamara",
+//         text: "Sri Lanka is a tropical island situated close to the southern tip of India. The bird life of Sri Lanka is very rich for its size and 505 species have been recorded.",
+//         timestamp: 52418542,
+//         avater: require("../assets/avatar.png"),
+//         image: require("../assets/new.jpg")
+//     },
+//     {
+//         id: "2",
+//         name: "Ruwan chamara",
+//         text: "sijdfiokdmfkdmfijdfodkfodjfdjfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffmd",
+//         timestamp: 152142114,
+//         avater: require("../assets/avatar.png"),
+//         image: require("../assets/9.jpg")
+//     },
+// ];
+
+// let posts = [];
 
 
 export default class HomeScreen extends React.Component {
 
-    // state = {
-    //     email: "",
-    //     displayName: ""
-    // }
+    state = {
+        posts: [],
+    }
 
-    // componentDidMount() {
-    //     const {email, displayName} = firebase.auth().currentUser;
-    //     this.setState({email, displayName});
-    // }
+    componentDidMount() {
+        firestore().collection("posts").onSnapshot(querySnapshot => {
+            querySnapshot.forEach(documentSnapshot => {
+                console.log(documentSnapshot.data())
+                this.setState({post: documentSnapshot.data()})
+            })
+        })
+    }
 
 
     renderPost = post => {
@@ -87,11 +86,11 @@ export default class HomeScreen extends React.Component {
                 </View>
 
                 <FlatList
-                style={styles.feed}
-                data={posts}
-                renderItem={({item}) => this.renderPost(item)}
-                keyExtractor={item => item.id}
-                showsVerticalScrollIndicator={false}
+                    style={styles.feed}
+                    data={this.state.posts}
+                    renderItem={({item}) => this.renderPost(item)}
+                    keyExtractor={item => item.id}
+                    showsVerticalScrollIndicator={false}
                 />
             </View>
         )
@@ -109,7 +108,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFF",
         alignItems: "center",
         justifyContent: "center",
-        borderBottomWidth: 1,
+        borderBottomWidth: 5,
         borderBottomColor: "#EBECF4",
         shadowColor: "#454D65",
         shadowOffset: {height: 5},

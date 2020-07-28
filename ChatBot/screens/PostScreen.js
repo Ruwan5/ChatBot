@@ -172,12 +172,17 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
+        backgroundColor: "#FFF",
+        paddingBottom: 16,
+        paddingTop: 64,
         flexDirection: "row",
         justifyContent: "space-between",
         paddingHorizontal: 32,
         paddingVertical: 12,
-        borderBottomWidth: 1,
-        borderBottomColor: "#D8D9DB"
+        borderBottomWidth: 5,
+        borderBottomColor: "#EBECF4",
+        shadowOffset: {height: 5},
+        shadowColor: "#454D65",
     },
     inputContainer: {
         margin: 32,
