@@ -1,34 +1,68 @@
 import React from 'react';
 import {Text, View, StyleSheet, ScrollView, Alert, Image,FlatList, Button, KeyboardAvoidingView, TextInput, TouchableHighlight, Keyboard, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
+import firestore from '@react-native-firebase/firestore'
+import Firebase from "./Firebase/Firebase"
 
 
 export default class MessageScreen extends React.Component {
 
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //       data: [
+    //         {id:1, date:"9:50 am", type:'in',  message: "Lorem ipsum dolor sit amet"},
+    //         {id:2, date:"9:50 am", type:'out', message: "Lorem ipsum dolor sit amet"} ,
+    //         {id:3, date:"9:50 am", type:'in',  message: "Lorem ipsum dolor sit a met"},
+    //         {id:4, date:"9:50 am", type:'in',  message: "Lorem ipsum dolor sit a met"},
+    //         {id:5, date:"9:50 am", type:'out', message: "Lorem ipsum dolor sit a met"},
+    //         {id:6, date:"9:50 am", type:'out', message: "Lorem ipsum dolor sit a met"},
+    //         {id:7, date:"9:50 am", type:'in',  message: "Lorem ipsum dolor sit a met"},
+    //         {id:8, date:"9:50 am", type:'in',  message: "Lorem ipsum dolor sit a met"},
+    //         {id:9, date:"9:50 am", type:'in',  message: "Lorem ipsum dolor sit a met"},
+    //       ]
+    //     };
+    // }
+
     constructor(props) {
         super(props);
         this.state = {
-          data: [
-            {id:1, date:"9:50 am", type:'in',  message: "Lorem ipsum dolor sit amet"},
-            {id:2, date:"9:50 am", type:'out', message: "Lorem ipsum dolor sit amet"} ,
-            {id:3, date:"9:50 am", type:'in',  message: "Lorem ipsum dolor sit a met"},
-            {id:4, date:"9:50 am", type:'in',  message: "Lorem ipsum dolor sit a met"},
-            {id:5, date:"9:50 am", type:'out', message: "Lorem ipsum dolor sit a met"},
-            {id:6, date:"9:50 am", type:'out', message: "Lorem ipsum dolor sit a met"},
-            {id:7, date:"9:50 am", type:'in',  message: "Lorem ipsum dolor sit a met"},
-            {id:8, date:"9:50 am", type:'in',  message: "Lorem ipsum dolor sit a met"},
-            {id:9, date:"9:50 am", type:'in',  message: "Lorem ipsum dolor sit a met"},
-          ]
-        };
-      }
+            msgs: [],
+            message: "",
+            date: "",
+            id: ""
+        }
+    }
 
-      renderDate = (date) => {
-        return(
-          <Text style={styles.time}>
-            {date}
-          </Text>
-        );
-      }
+    componentDidMount() {
+        const user = this.props.uid || Firebase.shared.uid
+        this.setState({id: user})
+
+        firestore().collection("messages").doc(user).onSnapshot(doc => {
+            this.setState({msgs: doc.data()})
+        })
+    }
+
+    // renderDate = (date) => {
+    //     return(
+    //       <Text style={styles.time}>
+    //         {date}
+    //       </Text>
+    //     );
+    // }
+
+    sendMessage = () => {
+        firestore().collection("messages").doc(this.state.id.toString()).set(
+            {
+               id: this.state.id,
+               message: this.state.message,
+               date: Date.now(),
+               type: "out"
+            }
+        ).catch(err => {
+            Alert.alert(err);
+        })
+    }
 
     render() {
         return (
@@ -38,7 +72,7 @@ export default class MessageScreen extends React.Component {
 
                 </View>
 
-                <FlatList style={styles.list}
+                {/* <FlatList style={styles.list}
                     data={this.state.data}
                         keyExtractor= {(item) => {
                         return item.id;}}
@@ -54,21 +88,21 @@ export default class MessageScreen extends React.Component {
                         <View style={[styles.balloon]}>
                         <Text>{item.message}</Text>
                     </View>
-                    {inMessage && this.renderDate(item.date)}
+                        {inMessage && this.renderDate(item.date)}
                     </View>
                     )
-                }}/>
+                }}/> */}
 
                 <View style={styles.footer}>
                     <View style={styles.inputContainer}>
                         <TextInput style={styles.inputs}
                             placeholder="Write a message..."
                             underlineColorAndroid='transparent'
-                            onChangeText={(name_address) => this.setState({name_address})}/>
+                            onChangeText={(msg) => this.setState({message: msg})}/>
                     </View>
 
-                    <TouchableOpacity style={styles.btnSend}>
-                        <Icon name="send" style={styles.iconSend}  />
+                    <TouchableOpacity style={styles.btnSend} onPress={this.sendMessage}>
+                        <Icon name="send" style={styles.iconSend} />
                     </TouchableOpacity>
                 </View>
             </View>
