@@ -38,6 +38,10 @@ export default class HomeScreen extends React.Component {
     }
 
     componentDidMount() {
+        this.getData();
+    }
+
+    getData = () =>{
         let posts=[];
 
         firestore().collection("posts").get().then(querySnapshot => {
