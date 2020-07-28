@@ -6,40 +6,54 @@ import moment from 'moment'
 import firestore from '@react-native-firebase/firestore'
 import Firebase from "./Firebase/Firebase"
 
-// let posts = [
-//     {
-//         id: "1",
-//         name: "Ruwan chamara",
-//         text: "Sri Lanka is a tropical island situated close to the southern tip of India. The bird life of Sri Lanka is very rich for its size and 505 species have been recorded.",
-//         timestamp: 52418542,
-//         avater: require("../assets/avatar.png"),
-//         image: require("../assets/new.jpg")
-//     },
-//     {
-//         id: "2",
-//         name: "Ruwan chamara",
-//         text: "sijdfiokdmfkdmfijdfodkfodjfdjfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffmd",
-//         timestamp: 152142114,
-//         avater: require("../assets/avatar.png"),
-//         image: require("../assets/9.jpg")
-//     },
-// ];
+let postss = [
+    {
+        id: "1",
+        name: "Ruwan chamara",
+        text: "Sri Lanka is a tropical island situated close to the southern tip of India. The bird life of Sri Lanka is very rich for its size and 505 species have been recorded.",
+        timestamp: 52418542,
+        avater: require("../assets/avatar.png"),
+        image: require("../assets/new.jpg")
+    },
+    {
+        id: "2",
+        name: "Ruwan chamara",
+        text: "sijdfiokdmfkdmfijdfodkfodjfdjfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffmd",
+        timestamp: 152142114,
+        avater: require("../assets/avatar.png"),
+        image: require("../assets/9.jpg")
+    },
+];
 
-// let posts = [];
+// let postss = [];
 
 
 export default class HomeScreen extends React.Component {
 
-    state = {
-        posts: [],
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        };
     }
 
     componentDidMount() {
-        firestore().collection("posts").onSnapshot(querySnapshot => {
-            querySnapshot.forEach(documentSnapshot => {
-                console.log(documentSnapshot.data())
-                this.setState({post: documentSnapshot.data()})
+        let posts=[];
+
+        firestore().collection("posts").get().then(querySnapshot => {
+            querySnapshot.forEach(function (doc){
+                posts.push({
+                    id: doc.data().uid,
+                    image: doc.data().image,
+                    timestamp: doc.data().timestamp,
+                    text: doc.data().text
+                })
             })
+            console.log(posts)
+            this.setState({
+                posts
+            })
+            console.log(this.state.post)
         })
     }
 
@@ -53,7 +67,7 @@ export default class HomeScreen extends React.Component {
                     <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
                         <View>
                             <Text style={styles.name}>{post.name}</Text>
-                            <Text style={styles.timestamp}>{moment(post.timestamp).fromNow()}</Text>
+                            <Text style={styles.timestamp}>{moment(post).fromNow()}</Text>
                         </View>
 
                         <Icon name="more" size={24} color="#737888"/>
@@ -61,7 +75,7 @@ export default class HomeScreen extends React.Component {
                     </View>
 
                     <Text style={styles.posts}>{post.text}</Text>
-                    <Image source={post.image} style={styles.postImage} resizeMode="cover"/>
+                    <Image source={{uri: post.image}} style={styles.postImage} resizeMode="cover"/>
 
                     <View style={{flexDirection: "row"}}>
                         <Icon name="favorite" size={24} color="#737888" style={{marginRight: 16}}/>
@@ -89,8 +103,8 @@ export default class HomeScreen extends React.Component {
                     style={styles.feed}
                     data={this.state.posts}
                     renderItem={({item}) => this.renderPost(item)}
-                    keyExtractor={item => item.id}
-                    showsVerticalScrollIndicator={false}
+                    // keyExtractor={item => item.uid}
+                    // showsVerticalScrollIndicator={false}
                 />
             </View>
         )
