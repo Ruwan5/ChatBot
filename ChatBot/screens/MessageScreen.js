@@ -3,6 +3,7 @@ import {Text, View, StyleSheet, ScrollView, Alert, Image,FlatList, Button, Keybo
 import { Icon } from 'react-native-elements';
 import firestore from '@react-native-firebase/firestore'
 import Firebase from "./Firebase/Firebase"
+import moment from 'moment'
 
 
 export default class MessageScreen extends React.Component {
@@ -27,41 +28,80 @@ export default class MessageScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            msgs: [],
             message: "",
-            date: "",
-            id: ""
+            id: "",
+            clearText: ""
+
         }
     }
 
     componentDidMount() {
+        this.getMessages();
+
+        // setInterval(this.getMessages, 1000)
+    }
+
+    getMessages = () =>{
+        let msg = [];
+
         const user = this.props.uid || Firebase.shared.uid
         this.setState({id: user})
 
-        firestore().collection("messages").doc(user).onSnapshot(doc => {
-            this.setState({msgs: doc.data()})
+
+        firestore().collection("messages").orderBy('date', 'asc').get().then(querySnapshot => {
+            querySnapshot.forEach( function (doc) {
+
+                if(user == doc.data().id){
+                    msg.push({
+                        message: doc.data().message,
+                        date: doc.data().date,
+                        id: doc.data().id,
+                        type: doc.data().type
+                    })
+                } else {
+                    msg.push({
+                        message: doc.data().message,
+                        date: doc.data().date,
+                        id: doc.data().id,
+                        type: "in"
+                    })
+                }
+
+            })
+
+            this.setState({msg});
         })
     }
 
-    // renderDate = (date) => {
-    //     return(
-    //       <Text style={styles.time}>
-    //         {date}
-    //       </Text>
-    //     );
-    // }
+    renderDate = (date) => {
+        return(
+          <Text style={styles.time}>
+            {date}
+          </Text>
+        );
+    }
+
 
     sendMessage = () => {
-        firestore().collection("messages").doc(this.state.id.toString()).set(
-            {
-               id: this.state.id,
-               message: this.state.message,
-               date: Date.now(),
-               type: "out"
-            }
-        ).catch(err => {
-            Alert.alert(err);
-        })
+
+        if(this.state.message != ""){
+            var time = moment().utcOffset('+05:30').format('HH:mm');
+            firestore().collection("messages").add(
+                {
+                   id: this.state.id,
+                   message: this.state.message,
+                   date: time,
+                   type: "out"
+                }
+            ).catch(err => {
+                Alert.alert(err);
+            })
+
+
+        } else {
+            Alert.alert("Empty message!")
+        }
+
     }
 
     render() {
@@ -72,12 +112,11 @@ export default class MessageScreen extends React.Component {
 
                 </View>
 
-                {/* <FlatList style={styles.list}
-                    data={this.state.data}
+                <FlatList style={styles.list}
+                    data={this.state.msg}
                         keyExtractor= {(item) => {
                         return item.id;}}
                         renderItem={(message) => {
-                        console.log(item);
                         const item = message.item;
                         let inMessage = item.type === 'in';
                         let itemStyle = inMessage ? styles.itemIn : styles.itemOut;
@@ -91,7 +130,7 @@ export default class MessageScreen extends React.Component {
                         {inMessage && this.renderDate(item.date)}
                     </View>
                     )
-                }}/> */}
+                }}/>
 
                 <View style={styles.footer}>
                     <View style={styles.inputContainer}>

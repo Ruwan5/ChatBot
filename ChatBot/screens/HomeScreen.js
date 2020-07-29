@@ -6,24 +6,24 @@ import moment from 'moment'
 import firestore from '@react-native-firebase/firestore'
 import Firebase from "./Firebase/Firebase"
 
-let postss = [
-    {
-        id: "1",
-        name: "Ruwan chamara",
-        text: "Sri Lanka is a tropical island situated close to the southern tip of India. The bird life of Sri Lanka is very rich for its size and 505 species have been recorded.",
-        timestamp: 52418542,
-        avater: require("../assets/avatar.png"),
-        image: require("../assets/new.jpg")
-    },
-    {
-        id: "2",
-        name: "Ruwan chamara",
-        text: "sijdfiokdmfkdmfijdfodkfodjfdjfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffmd",
-        timestamp: 152142114,
-        avater: require("../assets/avatar.png"),
-        image: require("../assets/9.jpg")
-    },
-];
+// let postss = [
+//     {
+//         id: "1",
+//         name: "Ruwan chamara",
+//         text: "Sri Lanka is a tropical island situated close to the southern tip of India. The bird life of Sri Lanka is very rich for its size and 505 species have been recorded.",
+//         timestamp: 52418542,
+//         avater: require("../assets/avatar.png"),
+//         image: require("../assets/new.jpg")
+//     },
+//     {
+//         id: "2",
+//         name: "Ruwan chamara",
+//         text: "sijdfiokdmfkdmfijdfodkfodjfdjfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffmd",
+//         timestamp: 152142114,
+//         avater: require("../assets/avatar.png"),
+//         image: require("../assets/9.jpg")
+//     },
+// ];
 
 // let postss = [];
 
@@ -39,6 +39,8 @@ export default class HomeScreen extends React.Component {
 
     componentDidMount() {
         this.getData();
+
+        // setInterval(this.getData, 5000);
     }
 
     getData = () =>{
@@ -53,11 +55,10 @@ export default class HomeScreen extends React.Component {
                     text: doc.data().text
                 })
             })
-            console.log(posts)
+            // console.log(posts)
             this.setState({
                 posts
             })
-            console.log(this.state.post)
         })
     }
 
@@ -107,8 +108,8 @@ export default class HomeScreen extends React.Component {
                     style={styles.feed}
                     data={this.state.posts}
                     renderItem={({item}) => this.renderPost(item)}
-                    // keyExtractor={item => item.uid}
-                    // showsVerticalScrollIndicator={false}
+                    keyExtractor={item => item.uid}
+                    showsVerticalScrollIndicator={false}
                 />
             </View>
         )
