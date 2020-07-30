@@ -5,47 +5,33 @@ import { Icon } from 'react-native-elements';
 import moment from 'moment'
 import firestore from '@react-native-firebase/firestore'
 import Firebase from "./Firebase/Firebase"
-import { useScreens } from 'react-native-screens';
-
-// let postss = [
-//     {
-//         id: "1",
-//         name: "Ruwan chamara",
-//         text: "Sri Lanka is a tropical island situated close to the southern tip of India. The bird life of Sri Lanka is very rich for its size and 505 species have been recorded.",
-//         timestamp: 52418542,
-//         avater: require("../assets/avatar.png"),
-//         image: require("../assets/new.jpg")
-//     },
-//     {
-//         id: "2",
-//         name: "Ruwan chamara",
-//         text: "sijdfiokdmfkdmfijdfodkfodjfdjfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffmd",
-//         timestamp: 152142114,
-//         avater: require("../assets/avatar.png"),
-//         image: require("../assets/9.jpg")
-//     },
-// ];
-
-// let postss = [];
 
 
 export default class HomeScreen extends React.Component {
 
+
+
     constructor(props) {
         super(props);
-        this.Post = []
+
         this.state = {
 
         };
+
     }
+
+
 
     componentDidMount() {
+
         this.getData();
 
-        // setInterval(this.getData, 5000);
+        // setInterval(this.getData, 1000);
     }
 
+
     getData = () =>{
+        let posts =[];
 
         firestore().collection("posts").get().then(querySnapshot => {
 
@@ -54,7 +40,7 @@ export default class HomeScreen extends React.Component {
                    firestore().collection("users").doc(doc.data().uid).get().then(res => {
 
 
-                        Posts.push({
+                        posts.push({
                         id: doc.data().uid,
                         image: doc.data().image,
                         timestamp: doc.data().timestamp,
@@ -62,15 +48,15 @@ export default class HomeScreen extends React.Component {
                         avatar: res.data().avatar,
                         name: res.data().fname +" "+ res.data().lname
                         })
-                    console.log(Posts)
+
+
                    })
 
             })
-
-            console.log()
-            this.setState({
-                Posts
-            })
+            // console.log(posts)
+            // this.setState({
+            //     posts
+            // })
         })
     }
 
@@ -79,7 +65,7 @@ export default class HomeScreen extends React.Component {
         return (
             <View style={styles.feedItem}>
 
-                <Image source={post.avater} style={styles.avatar}/>
+                <Image source={{uri: post.avatar}} style={styles.avatar}/>
                 <View style={{flex: 1}}>
                     <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
                         <View>
@@ -118,7 +104,7 @@ export default class HomeScreen extends React.Component {
 
                 <FlatList
                     style={styles.feed}
-                    data={this.state.Posts}
+                    data={this.state.posts}
                     renderItem={({item}) => this.renderPost(item)}
                     keyExtractor={item => item.uid}
                     showsVerticalScrollIndicator={false}
