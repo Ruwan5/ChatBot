@@ -10,7 +10,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen';
 import MessageScreen from './screens/MessageScreen';
 import PostScreen from './screens/PostScreen';
-import NotificationScreen from './screens/NotificationScreeen';
+import NotificationScreen from './screens/NotificationScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import { YellowBox } from 'react-native';
 
@@ -73,7 +73,7 @@ const AppContainer = createStackNavigator(
                 Notification: {
                     screen: NotificationScreen,
                     navigationOptions: {
-                        tabBarIcon: ({tintColor}) => <Icon name="notifications" size={24} color={tintColor}></Icon>
+                        tabBarIcon: ({tintColor}) => <Icon name="persons" size={24} color={tintColor}></Icon>
 
                     }
                 },

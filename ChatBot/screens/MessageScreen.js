@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, StyleSheet, ScrollView, Alert, Image,FlatList, Button, KeyboardAvoidingView, TextInput, TouchableHighlight, Keyboard, TouchableOpacity } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Icon, Divider } from 'react-native-elements';
 import firestore from '@react-native-firebase/firestore'
 import Firebase from "./Firebase/Firebase"
 import moment from 'moment'
@@ -25,18 +25,23 @@ export default class MessageScreen extends React.Component {
     //     };
     // }
 
+
     constructor(props) {
         super(props);
         this.state = {
+            userName: "",
             message: "",
             id: "",
-            clearText: ""
 
         }
+
+
     }
+
 
     componentDidMount() {
         this.getMessages();
+
 
         // setInterval(this.getMessages, 1000)
     }
@@ -56,14 +61,16 @@ export default class MessageScreen extends React.Component {
                         message: doc.data().message,
                         date: doc.data().date,
                         id: doc.data().id,
-                        type: doc.data().type
+                        type: doc.data().type,
+                        fname: doc.data().fname
                     })
                 } else {
                     msg.push({
                         message: doc.data().message,
                         date: doc.data().date,
                         id: doc.data().id,
-                        type: "in"
+                        type: "in",
+                        fname: doc.data().fname
                     })
                 }
 
@@ -84,19 +91,32 @@ export default class MessageScreen extends React.Component {
 
     sendMessage = () => {
 
+
         if(this.state.message != ""){
+
+            const user = this.props.uid || Firebase.shared.uid
+            firestore().collection("users").doc(user).onSnapshot( doc=>{
+                var userName = doc.data().fname
+                this.setState({userName: userName}, ()=>{
+                    console.log("R");
+                    console.log(this.state.userName);
+                })
+            })
+
+
             var time = moment().utcOffset('+05:30').format('HH:mm');
             firestore().collection("messages").add(
                 {
                    id: this.state.id,
                    message: this.state.message,
                    date: time,
-                   type: "out"
+                   type: "out",
+                   fname: this.state.userName
                 }
             ).catch(err => {
                 Alert.alert(err);
             })
-
+            this.setState({message: ""})
 
         } else {
             Alert.alert("Empty message!")
@@ -125,6 +145,7 @@ export default class MessageScreen extends React.Component {
                     <View style={[styles.item, itemStyle]}>
                         {!inMessage && this.renderDate(item.date)}
                         <View style={[styles.balloon]}>
+                        <Text style={{fontStyle: "italic", color: "#00F",}}>{item.fname}</Text>
                         <Text>{item.message}</Text>
                     </View>
                         {inMessage && this.renderDate(item.date)}
@@ -137,7 +158,9 @@ export default class MessageScreen extends React.Component {
                         <TextInput style={styles.inputs}
                             placeholder="Write a message..."
                             underlineColorAndroid='transparent'
-                            onChangeText={(msg) => this.setState({message: msg})}/>
+                            onChangeText={(msg) => this.setState({message: msg})}
+                            value={this.state.message}
+                            clearButtonMode='always'/>
                     </View>
 
                     <TouchableOpacity style={styles.btnSend} onPress={this.sendMessage}>

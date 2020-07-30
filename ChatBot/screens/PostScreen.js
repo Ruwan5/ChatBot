@@ -8,7 +8,7 @@ import firestore from '@react-native-firebase/firestore'
 const firebase = require("firebase");
 require("firebase/firestore");
 
-export default class PostScreen extends React.Component {
+export default class Notification extends React.Component {
 
 
 
