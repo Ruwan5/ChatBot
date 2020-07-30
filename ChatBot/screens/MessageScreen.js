@@ -96,7 +96,7 @@ export default class MessageScreen extends React.Component {
 
             const user = this.props.uid || Firebase.shared.uid
             firestore().collection("users").doc(user).onSnapshot( doc=>{
-                var userName = doc.data().fname
+                const userName = doc.data().fname
                 this.setState({userName: userName}, ()=>{
                     console.log("R");
                     console.log(this.state.userName);

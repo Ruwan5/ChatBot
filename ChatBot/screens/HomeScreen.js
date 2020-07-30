@@ -5,6 +5,7 @@ import { Icon } from 'react-native-elements';
 import moment from 'moment'
 import firestore from '@react-native-firebase/firestore'
 import Firebase from "./Firebase/Firebase"
+import { useScreens } from 'react-native-screens';
 
 // let postss = [
 //     {
@@ -32,6 +33,7 @@ export default class HomeScreen extends React.Component {
 
     constructor(props) {
         super(props);
+        this.Post = []
         this.state = {
 
         };
@@ -44,20 +46,30 @@ export default class HomeScreen extends React.Component {
     }
 
     getData = () =>{
-        let posts=[];
 
         firestore().collection("posts").get().then(querySnapshot => {
+
             querySnapshot.forEach(function (doc){
-                posts.push({
-                    id: doc.data().uid,
-                    image: doc.data().image,
-                    timestamp: doc.data().timestamp,
-                    text: doc.data().text
-                })
+
+                   firestore().collection("users").doc(doc.data().uid).get().then(res => {
+
+
+                        Posts.push({
+                        id: doc.data().uid,
+                        image: doc.data().image,
+                        timestamp: doc.data().timestamp,
+                        text: doc.data().text,
+                        avatar: res.data().avatar,
+                        name: res.data().fname +" "+ res.data().lname
+                        })
+                    console.log(Posts)
+                   })
+
             })
-            // console.log(posts)
+
+            console.log()
             this.setState({
-                posts
+                Posts
             })
         })
     }
@@ -106,7 +118,7 @@ export default class HomeScreen extends React.Component {
 
                 <FlatList
                     style={styles.feed}
-                    data={this.state.posts}
+                    data={this.state.Posts}
                     renderItem={({item}) => this.renderPost(item)}
                     keyExtractor={item => item.uid}
                     showsVerticalScrollIndicator={false}

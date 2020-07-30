@@ -73,7 +73,7 @@ const AppContainer = createStackNavigator(
                 Notification: {
                     screen: NotificationScreen,
                     navigationOptions: {
-                        tabBarIcon: ({tintColor}) => <Icon name="persons" size={24} color={tintColor}></Icon>
+                        tabBarIcon: ({tintColor}) => <Icon name="group" size={24} color={tintColor}></Icon>
 
                     }
                 },
