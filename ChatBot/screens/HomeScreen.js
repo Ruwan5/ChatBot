@@ -32,12 +32,9 @@ export default class HomeScreen extends React.Component {
 
     getData = () =>{
         let posts =[];
-
         firestore().collection("posts").get().then(querySnapshot => {
 
             querySnapshot.forEach(function (doc){
-
-                   firestore().collection("users").doc(doc.data().uid).get().then(res => {
 
 
                         posts.push({
@@ -45,19 +42,44 @@ export default class HomeScreen extends React.Component {
                         image: doc.data().image,
                         timestamp: doc.data().timestamp,
                         text: doc.data().text,
-                        avatar: res.data().avatar,
-                        name: res.data().fname +" "+ res.data().lname
                         })
 
 
-                   })
 
             })
-            // console.log(posts)
-            // this.setState({
-            //     posts
-            // })
+
+            this.setState({
+                posts
+            })
         })
+
+        // let posts =[];
+
+        // firestore().collection("posts").get().then(querySnapshot => {
+
+        //     querySnapshot.forEach(function (doc){
+
+        //            firestore().collection("users").doc(doc.data().uid).get().then(res => {
+
+
+        //                 posts.push({
+        //                 id: doc.data().uid,
+        //                 image: doc.data().image,
+        //                 timestamp: doc.data().timestamp,
+        //                 text: doc.data().text,
+        //                 avatar: res.data().avatar,
+        //                 name: res.data().fname +" "+ res.data().lname
+        //                 })
+
+
+        //            })
+
+        //     })
+        //     // console.log(posts)
+        //     // this.setState({
+        //     //     posts
+        //     // })
+        // })
     }
 
 
