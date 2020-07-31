@@ -1,17 +1,29 @@
-import React from 'react';
-import {View, Text, StyleSheet, TextInput, TouchableOpacity,Image, StatusBar, LayoutAnimation} from 'react-native';
+import React, {Component} from 'react';
+import {View, Text, StyleSheet, TextInput, TouchableOpacity,Image, StatusBar, LayoutAnimation, Alert} from 'react-native';
 import { firebase } from '@firebase/app';
 import '@firebase/firestore'
 import '@firebase/auth';
 require("firebase/firestore");
+import Dialog from "react-native-dialog";
 
 
 export default class LoginScreen extends React.Component {
     state = {
         email: "",
         password: "",
-        errorMessage: null
+        errorMessage: null,
+        dialogVisible: false,
+        resetMail: null,
     }
+
+    showDialog = () => {
+        this.setState({ dialogVisible: true });
+        console.log(this.state.dialogVisible)
+    };
+
+    handleCancel = () => {
+        this.setState({ dialogVisible: false });
+    };
 
     handleLogin = () => {
         const {email, password} = this.state
@@ -20,6 +32,29 @@ export default class LoginScreen extends React.Component {
         .signInWithEmailAndPassword(email, password)
         .catch(error => this.setState({errorMessage: error.message}));
     }
+
+    sendResetEmail = () => {
+        if(this.state.resetMail != null){
+            const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (reg.test(this.state.resetMail) === true){
+                firebase.auth().sendPasswordResetEmail(this.state.resetMail)
+                .then(function (user) {
+                    Alert.alert('Please check your email... Reset email has been sent')
+                }).catch(function (e) {
+                    Alert.alert(e);
+                })
+            }
+            else{
+                Alert.alert("Invalid email address!");
+            }
+
+            this.setState({ dialogVisible: false });
+        } else {
+            Alert.alert("No email Address to send reset mail");
+        }
+
+    };
+
 
     render() {
         LayoutAnimation.easeInEaseOut();
@@ -76,6 +111,25 @@ export default class LoginScreen extends React.Component {
                         New to ChatBot? <Text style={{fontWeight: "500", color: "#E9446A"}}>Sign Up</Text>
                     </Text>
                 </TouchableOpacity>
+
+                <View>
+                    <Dialog.Container visible={this.state.dialogVisible}>
+                    <Dialog.Title>Reset Password</Dialog.Title>
+                    <Dialog.Description>
+                        Enter your registered email address
+                    </Dialog.Description>
+                    <Dialog.Input placeholder="Enter email here" underlineColorAndroid="black"  onChangeText={(email) => this.setState({resetMail: email})}></Dialog.Input>
+                    <Dialog.Button label="Cancel" onPress={this.handleCancel} />
+                    <Dialog.Button label="Ok" onPress={this.sendResetEmail} />
+                    </Dialog.Container>
+                </View>
+
+                <TouchableOpacity style={{ alignSelf: "center", marginTop: 12}} onPress={() => this.showDialog()}>
+
+                    <Text style={{fontWeight: "500", color: "#E9446A"}}>Forgot Password? </Text>
+
+                </TouchableOpacity>
+
             </View>
 
 
@@ -131,5 +185,6 @@ const styles = StyleSheet.create({
         height: 52,
         alignItems: "center",
         justifyContent: "center"
-    }
+    },
+
 })

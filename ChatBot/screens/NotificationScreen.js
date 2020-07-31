@@ -17,7 +17,7 @@ export default class NotificationScreen extends React.Component {
     componentDidMount() {
         this.getUsers();
 
-        // setInterval(this.getUsers, 5000);
+        // setInterval(this.getUsers, 1000);
     }
 
     getUsers = () =>{
